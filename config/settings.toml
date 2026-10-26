@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------
+# Time & Attendance Processor - application settings
+#
+# Edit this file with Notepad, save it, then restart the application.
+# Network binding (address / port) is set in .streamlit\config.toml.
+# ---------------------------------------------------------------------------
+
+[attendance]
+# Earliest entry LATER than this time is a late arrival (24-hour HH:MM or HH:MM:SS).
+late_threshold = "08:05"
+# Latest exit EARLIER than this time is an early departure.
+early_threshold = "17:00"
+# Sessions longer than this are flagged as an exception (possible missed exit).
+max_session_hours = 16
+# Date format used inside the PDF. "DMY" = 21/10/2026 (Bank of Ghana format), "MDY" = 10/21/2026.
+pdf_date_order = "DMY"
+
+[filtering]
+# Cardholder names containing any of these words are excluded (case-insensitive,
+# tolerant of minor misspellings such as TEMPORARAY or VISTOR).
+exclude_keywords = ["Temporary", "Contractor", "Visitor"]
+# 0.0 - 1.0. How similar a word must be to a keyword to count as a match.
+# 1.0 = exact words only. 0.80 catches one or two wrong letters.
+fuzzy_threshold = 0.80
+# Cardholders whose badge is used at a door/reader containing any of these texts are treated as
+# visitors and excluded (visitor-management workstations). Matching is case-insensitive.
+visitor_doors = ["VISITORS-MANAGE", "TW-BIO-VM"]
+
+[uploads]
+max_pdf_mb = 50
+max_roster_mb = 10
+
+[storage]
+# Folder for temporary processing files. Leave empty to use the system temp folder.
+temp_dir = ""
+# Leftover temporary folders older than this are deleted at startup and after each run.
+retention_minutes = 60
+
+[security]
+# Set enabled = true when the app is reachable from other computers.
+# Generate a password hash with:   .venv\Scripts\python -m tap.security
+auth_enabled = false
+password_hash = ""
+# Failed sign-in attempts allowed per browser session before it is locked.
+max_login_attempts = 5
+
+[logging]
+# Technical log folder (relative to the application folder). Logs never contain employee names.
+log_dir = "logs"
+level = "INFO"
